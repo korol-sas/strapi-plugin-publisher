@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DateTimePicker } from '@strapi/helper-plugin';
+import { DateTimePicker } from '@strapi/design-system';
 import { fetchSettings } from '../../../api/settings';
 
 const ActionContent = ({ action, setAction, isDisabled }) => {
@@ -24,6 +24,16 @@ const ActionContent = ({ action, setAction, isDisabled }) => {
 		}
 	};
 
+	const prepareDate = (date) => {
+		const timestamp = Date.parse(date);
+
+		if (Number.isNaN(timestamp) === false) {
+			return new Date(timestamp);
+		}
+
+		return null;
+	};
+
 	useEffect(() => {
 		fetchDTPStep();
 	}, []);
@@ -31,8 +41,8 @@ const ActionContent = ({ action, setAction, isDisabled }) => {
 	return (
 		<DateTimePicker
 			ariaLabel="datetime picker"
-			onChange={handleDateChange}
-			value={action.executeAt}
+			onChange={handleDateeChange}
+			value={prepareDate(action.executeAt)}
 			disabled={isDisabled}
 			step={step}
 		/>
